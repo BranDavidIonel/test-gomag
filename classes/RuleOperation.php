@@ -168,7 +168,7 @@
 		protected function __notEqual($operand1, $operand2)
 		{
 			$return = false;
-
+            list($operand1, $operand2) = $this->convertToUpperCase($operand1, $operand2);
 			if(is_array($operand1))
 			{
 				$operand2 = explode(',', trim($operand2, ','));
@@ -194,8 +194,7 @@
 		protected function __in($operand1, $operand2)
 		{
             $return = false;
-            $operand1=strtoupper($operand1);
-            $operand2=strtoupper($operand2);
+            list($operand1, $operand2) = $this->convertToUpperCase($operand1, $operand2);
 			$return = false;
 
 			if(!isset(self::$data[md5($operand2)]))
@@ -240,7 +239,7 @@
 		protected function __notIn($operand1, $operand2)
 		{
 			$return = true;
-
+            list($operand1, $operand2) = $this->convertToUpperCase($operand1, $operand2);
 			if(!isset(self::$data[md5($operand2)]))
 			{
 				self::$data[md5($operand2)] = array_flip(array_map('trim', explode(',', trim($operand2, ','))));
@@ -286,4 +285,11 @@
 		{
 			return $this->operators[$operator];
 		}
+        //fixed the bug with this conversion function
+        private function convertToUpperCase($operand1, $operand2)
+        {
+            $operand1=strtoupper($operand1);
+            $operand2=strtoupper($operand2);
+            return [$operand1, $operand2];
+        }
 	}
