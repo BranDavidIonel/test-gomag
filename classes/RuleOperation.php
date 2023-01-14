@@ -193,6 +193,9 @@
 
 		protected function __in($operand1, $operand2)
 		{
+            $return = false;
+            $operand1=strtoupper($operand1);
+            $operand2=strtoupper($operand2);
 			$return = false;
 
 			if(!isset(self::$data[md5($operand2)]))
